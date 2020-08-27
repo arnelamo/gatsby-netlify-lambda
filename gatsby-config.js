@@ -1,9 +1,21 @@
+let {createProxyMiddleware} = require("http-proxy-middleware")
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Gatlify`,
+    description: `Dog image gallery built with Gatsby, Netlify Functions and the Unsplash API`,
+    author: `Arne Pedersen`,
   },
+    // Enables the use of function URLs locally
+    developMiddleware: app => {
+      app.use(
+        "/.netlify/functions/",
+        createProxyMiddleware({
+          target: "http://localhost:9000",
+          pathRewrite: { "/.netlify/functions/": "" },
+        })
+      )
+    },
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
